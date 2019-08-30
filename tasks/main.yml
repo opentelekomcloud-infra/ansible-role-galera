@@ -1,0 +1,47 @@
+---
+# tasks file for roles/galera
+
+- name: install packages
+  become: true
+  package:
+    name: "{{item}}"
+    state: present
+  loop:
+    - python3-PyMySQL
+    - mariadb-galera-server
+    - galera
+    - firewalld
+    - python3-firewall
+
+- name: firewall
+  become: yes
+  firewalld:
+    service: mysql
+    permanent: yes
+    state: enabled
+
+- name: ports
+  become: yes
+  firewalld:
+    port: "{{item}}"
+    permanent: yes
+    state: enabled
+  loop:
+    - 4567/tcp
+    - 4568/tcp
+    - 4444/tcp
+
+- name: restart firewalld
+  become: true
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: deploy config
+  become: true
+  template:
+    src: galera.cnf.j2
+    dest: /etc/my.cnf.d/galera.cnf
+
+- include_tasks: init_cluster.yaml
+  run_once: true
