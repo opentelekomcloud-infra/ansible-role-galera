@@ -4,7 +4,7 @@
 - name: install packages
   become: true
   package:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: present
   loop:
     - python3-PyMySQL
@@ -23,7 +23,7 @@
 - name: ports
   become: yes
   firewalld:
-    port: "{{item}}"
+    port: "{{ item }}"
     permanent: yes
     state: enabled
   loop:
