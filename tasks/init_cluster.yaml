@@ -58,17 +58,3 @@
     db: test
     state: absent
 
-- name: Creates Grafana DB
-  mysql_db:
-    login:user: root
-    login_password: "{{ mysql_root_password }}"
-    db: grafana
-
-- name: Creates Grafana User
-  mysql_user:
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    user: "grafana"
-    password: "{{ grafana_user_password }}"
-    host_all: yes
-    priv: "grafana.*:ALL"

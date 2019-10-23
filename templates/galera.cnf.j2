@@ -33,9 +33,8 @@ wsrep_provider=/usr/lib64/galera/libgalera_smm.so
 # Logical cluster name. Should be the same for all nodes.
 wsrep_cluster_name="my_wsrep_cluster"
 
-
 # Group communication system handle
-wsrep_cluster_address="gcomm://{{ groups['galera'] | join(',')}}"
+wsrep_cluster_address="gcomm://{{ groups['galera'] | map('extract', hostvars) | map(attribute='public_ip') | join(' ,') }}"
 
 # Human-readable node name (non-unique). Hostname by default.
 #wsrep_node_name={{ansible_host}}
@@ -43,7 +42,7 @@ wsrep_cluster_address="gcomm://{{ groups['galera'] | join(',')}}"
 # Base replication <address|hostname>[:port] of the node.
 # The values supplied will be used as defaults for state transfer receiving,
 # listening ports and so on. Default: address of the first network interface.
-wsrep_node_address={{ansible_host}}
+wsrep_node_address={{public_ip | default(ansible_host) }}
 
 # Address for incoming client connections. Autodetect by default.
 #wsrep_node_incoming_address=

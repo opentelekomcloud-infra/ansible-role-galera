@@ -1,2 +1,5 @@
 ---
 # defaults file for roles/galera
+
+mysql_root_password: "some_fake"
+boostrap_new_cluster: True
