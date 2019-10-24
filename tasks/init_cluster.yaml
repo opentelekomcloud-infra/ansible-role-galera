@@ -35,13 +35,13 @@
     password: "{{ mysql_root_password }}"
     host: "localhost"
 
-    # - name: Secure the root user for server_hostname domain
-    #   mysql_user:
-    #     login_user: root
-    #     login_password: "{{ mysql_root_password }}"
-    #     user: root
-    #     password: "{{ mysql_root_password }}"
-    #     host: "{{ ansible_fqdn }}"
+ - name: Secure the root user for server_hostname domain
+   mysql_user:
+     login_user: root
+     login_password: "{{ mysql_root_password }}"
+     user: root
+     password: "{{ mysql_root_password }}"
+     host: "{{ ansible_fqdn }}"
 
 - name: Deletes anonymous server user
   mysql_user:
